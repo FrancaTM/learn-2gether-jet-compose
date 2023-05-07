@@ -12,6 +12,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -30,7 +31,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Article(stringResource(R.string.tutorial_title))
+                    ArticleApp()
                 }
             }
         }
@@ -38,29 +39,44 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Article(title: String, modifier: Modifier = Modifier) {
-    val image = painterResource(id = R.drawable.bg_compose_background)
-    Column {
+fun ArticleApp() {
+    Article(
+        title = stringResource(R.string.tutorial_title),
+        shortDescription = stringResource(R.string.short_description),
+        longDescription = stringResource(R.string.long_description),
+        imagePainter = painterResource(R.drawable.bg_compose_background)
+    )
+}
+
+@Composable
+private fun Article(
+    title: String,
+    shortDescription: String,
+    longDescription: String,
+    imagePainter: Painter,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier) {
         Image(
-            painter = image,
+            painter = imagePainter,
             contentDescription = null
         )
         Text(
             text = title,
             fontSize = 24.sp,
-            modifier = modifier
+            modifier = Modifier
                 .padding(16.dp)
         )
         Text(
-            text = stringResource(R.string.short_description),
+            text = shortDescription,
             textAlign = TextAlign.Justify,
-            modifier = modifier
+            modifier = Modifier
                 .padding(horizontal = 16.dp)
         )
         Text(
-            text = stringResource(R.string.long_description),
+            text = longDescription,
             textAlign = TextAlign.Justify,
-            modifier = modifier
+            modifier = Modifier
                 .padding(16.dp)
         )
     }
@@ -71,8 +87,8 @@ fun Article(title: String, modifier: Modifier = Modifier) {
     showSystemUi = true
 )
 @Composable
-fun ArticlePreview() {
+fun ArticleAppPreview() {
     Learn2getherTheme {
-        Article(stringResource(id = R.string.tutorial_title))
+        ArticleApp()
     }
 }
